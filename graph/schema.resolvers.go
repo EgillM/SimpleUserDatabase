@@ -7,20 +7,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/EgillM/SimpleUserDatabase/database"
 	"github.com/EgillM/SimpleUserDatabase/graph/generated"
 	"github.com/EgillM/SimpleUserDatabase/graph/model"
 )
 
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	user := &model.User{
-		Username: input.Username,
-		Name:     input.Name,
-		Email:    input.Email,
-		Password: input.Password,
-	}
-	database.UserRepo.Save(user)
-	return user, nil
+func (r *mutationResolver) CreateUser(ctx context.Context, input *model.NewUser) (string, error) {
+	return db.Save(input), nil
 }
 
 func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string, error) {
@@ -28,7 +20,7 @@ func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string
 }
 
 func (r *queryResolver) Users(ctx context.Context, limit *int) ([]*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
+	return db.All(), nil
 }
 
 // Mutation returns generated.MutationResolver implementation.
@@ -46,8 +38,8 @@ type queryResolver struct{ *Resolver }
 //  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //    it when you're done.
 //  - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *queryResolver) User(ctx context.Context, limit *int) ([]*model.User, error) {
-	return []*model.User{}, nil //&model.User{Username: obj.Username, Name: "user " + obj.Username}, nil
-}
+var db = database.Connect()
 
-type userResolver struct{ *Resolver }
+func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+	return db.FindByID(id), nil
+}
