@@ -7,6 +7,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/EgillM/SimpleUserDatabase/database"
 	"github.com/EgillM/SimpleUserDatabase/graph"
 	"github.com/EgillM/SimpleUserDatabase/graph/generated"
 )
@@ -14,6 +15,7 @@ import (
 const defaultPort = "8080"
 
 func main() {
+	database.NewDatabase()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort

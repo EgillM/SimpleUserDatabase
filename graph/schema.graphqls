@@ -10,7 +10,7 @@ type User {
 }
 
 type Query {
-  user(limit: Int): [User!]!
+  users(limit: Int): [User!]!
 }
 
 input NewUser {
@@ -20,6 +20,12 @@ input NewUser {
   password: String!
 }
 
+input Login {
+  username: String!
+  password: String!
+}
+
 type Mutation {
-  createUser(input: NewUser): User!
+  createUser(input: NewUser): String!
+  login(input: Login!): String!
 }
