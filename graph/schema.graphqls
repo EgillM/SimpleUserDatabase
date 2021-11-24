@@ -3,6 +3,7 @@
 # https://gqlgen.com/getting-started/
 
 type User {
+  _id: ID!
   username: String!
   name: String!
   email: String!
@@ -10,7 +11,8 @@ type User {
 }
 
 type Query {
-  users(limit: Int): [User!]!
+  user(_id: ID!): User!
+  users: [User!]!
 }
 
 input NewUser {
@@ -20,12 +22,21 @@ input NewUser {
   password: String!
 }
 
+input UpdateUser {
+  username: String
+  name: String
+  email: String
+  password: String
+}
+
 input Login {
   username: String!
   password: String!
 }
 
 type Mutation {
-  createUser(input: NewUser): String!
+  createUser(input: NewUser): User!
+  updateUser(_id: ID!, input: UpdateUser): User
+  deleteUser(_id: ID!): User!
   login(input: Login!): String!
 }
