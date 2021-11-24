@@ -18,12 +18,16 @@ go run ./server.go
 Then you can access the application via http://localhost:8080.
 
 
-## How to develop locally
+## How to use
 
 The following are the implemented functions.
 
 CreateUser
+
 UpdateUser
+
 DeleteUser
+
 User (this searches for one user)
+
 Users (this lists all users)
